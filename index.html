@@ -1,567 +1,1665 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Bee Pollination Agent | شرح المشروع للفريق</title>
-<meta name="description" content="موقع شرح تفاعلي لمشروع AI Bee Pollination Agent: الفكرة، العقول التلاتة، المراحل، الأدوار والجدول.">
-<meta name="theme-color" content="#2b1b12">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script>document.documentElement.classList.add('js');</script>
-<script src="script.js" defer></script>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Bee Pollination Agent | شرح المشروع للفريق</title>
+    <meta
+      name="description"
+      content="موقع شرح تفاعلي لمشروع AI Bee Pollination Agent: الفكرة، العقول التلاتة، المراحل، الأدوار والجدول."
+    />
+    <meta name="theme-color" content="#2b1b12" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      document.documentElement.classList.add("js");
+    </script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <!-- ============ Shared SVG symbols (used by the hero, the demo, the legend and the cards) ============ -->
+    <svg
+      width="0"
+      height="0"
+      style="position: absolute"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <symbol id="bee" viewBox="0 0 20 20">
+          <ellipse
+            cx="8"
+            cy="6.2"
+            rx="3.2"
+            ry="2.2"
+            fill="#dff1ff"
+            fill-opacity=".9"
+            stroke="#9cc3dd"
+            stroke-width=".4"
+            transform="rotate(-20 8 6.2)"
+          />
+          <ellipse
+            cx="12.4"
+            cy="6"
+            rx="3.2"
+            ry="2.2"
+            fill="#dff1ff"
+            fill-opacity=".9"
+            stroke="#9cc3dd"
+            stroke-width=".4"
+            transform="rotate(20 12.4 6)"
+          />
+          <ellipse
+            cx="10"
+            cy="11.5"
+            rx="5.6"
+            ry="3.7"
+            fill="#f2b61f"
+            stroke="#2b1b12"
+            stroke-width=".6"
+          />
+          <path d="M8 8.2v6.6M11 8v7" stroke="#2b1b12" stroke-width="1.4" />
+          <circle cx="15.6" cy="11" r="2.1" fill="#2b1b12" />
+          <circle cx="16.2" cy="10.4" r=".5" fill="#fff" />
+          <path d="M4.4 11.5l-2.4-.9v1.8z" fill="#2b1b12" />
+        </symbol>
+        <symbol id="hive" viewBox="0 0 20 20">
+          <path
+            d="M10 1.5c-4.2 0-7 3-7 6.2V9h14V7.7c0-3.2-2.800-6.200-7-6.200z"
+            fill="#e3a72f"
+            stroke="#7a4b12"
+            stroke-width=".5"
+          />
+          <rect
+            x="2.600"
+            y="9"
+            width="14.800"
+            height="3.200"
+            rx="1.600"
+            fill="#c98a1d"
+            stroke="#7a4b12"
+            stroke-width=".5"
+          />
+          <rect
+            x="3"
+            y="12.300"
+            width="14"
+            height="3.200"
+            rx="1.600"
+            fill="#e3a72f"
+            stroke="#7a4b12"
+            stroke-width=".5"
+          />
+          <rect
+            x="3.600"
+            y="15.600"
+            width="12.800"
+            height="2.800"
+            rx="1.400"
+            fill="#c98a1d"
+            stroke="#7a4b12"
+            stroke-width=".5"
+          />
+          <ellipse cx="10" cy="6.500" rx="2" ry="1.700" fill="#3a2416" />
+        </symbol>
+        <symbol id="rock" viewBox="0 0 20 20">
+          <path
+            d="M2.500 16.500L4.500 8l5.500-3.500 6 3.500 1.800 8.500z"
+            fill="#8a8178"
+            stroke="#4d4640"
+            stroke-width=".6"
+            stroke-linejoin="round"
+          />
+          <path d="M4.500 8L10 4.500 9 10z" fill="#aaa196" />
+        </symbol>
+        <symbol id="bush" viewBox="0 0 20 20">
+          <circle cx="6.500" cy="12.500" r="4.200" fill="#4f7a3a" />
+          <circle cx="13.500" cy="12.500" r="4.200" fill="#47703a" />
+          <circle cx="10" cy="8.800" r="4.600" fill="#5a8a42" />
+          <circle cx="8.500" cy="8" r="1" fill="#7fae62" />
+        </symbol>
+        <symbol id="flower-s" viewBox="0 0 20 20">
+          <g fill="#e58aa8" stroke="rgba(43,27,18,.3)" stroke-width=".3">
+            <circle cx="10" cy="7" r="2.400" />
+            <circle cx="13" cy="9.200" r="2.400" />
+            <circle cx="11.900" cy="12.700" r="2.400" />
+            <circle cx="8.100" cy="12.700" r="2.400" />
+            <circle cx="7" cy="9.200" r="2.400" />
+          </g>
+          <circle
+            cx="10"
+            cy="10.200"
+            r="1.900"
+            fill="#f6c453"
+            stroke="#b9791a"
+            stroke-width=".4"
+          />
+        </symbol>
+        <symbol id="flower-m" viewBox="0 0 20 20">
+          <g fill="#a77bd0" stroke="rgba(43,27,18,.3)" stroke-width=".3">
+            <circle cx="10" cy="5.800" r="2.900" />
+            <circle cx="14" cy="8.700" r="2.900" />
+            <circle cx="12.500" cy="13.400" r="2.900" />
+            <circle cx="7.500" cy="13.400" r="2.900" />
+            <circle cx="6" cy="8.700" r="2.900" />
+          </g>
+          <circle
+            cx="10"
+            cy="10.300"
+            r="2.300"
+            fill="#f6c453"
+            stroke="#b9791a"
+            stroke-width=".4"
+          />
+        </symbol>
+        <symbol id="flower-l" viewBox="0 0 20 20">
+          <g fill="#e2573f" stroke="rgba(43,27,18,.3)" stroke-width=".3">
+            <circle cx="10" cy="5" r="3.500" />
+            <circle cx="14.900" cy="8.600" r="3.500" />
+            <circle cx="13" cy="14.200" r="3.500" />
+            <circle cx="7" cy="14.200" r="3.500" />
+            <circle cx="5.100" cy="8.600" r="3.500" />
+          </g>
+          <circle
+            cx="10"
+            cy="10.600"
+            r="2.800"
+            fill="#f6c453"
+            stroke="#b9791a"
+            stroke-width=".4"
+          />
+        </symbol>
+      </defs>
+    </svg>
 
-<!-- ============ Shared SVG symbols (used by the hero, the demo, the legend and the cards) ============ -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="bee" viewBox="0 0 20 20">
-      <ellipse cx="8" cy="6.2" rx="3.2" ry="2.2" fill="#dff1ff" fill-opacity=".9" stroke="#9cc3dd" stroke-width=".4" transform="rotate(-20 8 6.2)"/>
-      <ellipse cx="12.4" cy="6" rx="3.2" ry="2.2" fill="#dff1ff" fill-opacity=".9" stroke="#9cc3dd" stroke-width=".4" transform="rotate(20 12.4 6)"/>
-      <ellipse cx="10" cy="11.5" rx="5.6" ry="3.7" fill="#f2b61f" stroke="#2b1b12" stroke-width=".6"/>
-      <path d="M8 8.2v6.6M11 8v7" stroke="#2b1b12" stroke-width="1.4"/>
-      <circle cx="15.6" cy="11" r="2.1" fill="#2b1b12"/>
-      <circle cx="16.2" cy="10.4" r=".5" fill="#fff"/>
-      <path d="M4.4 11.5l-2.4-.9v1.8z" fill="#2b1b12"/>
-    </symbol>
-    <symbol id="hive" viewBox="0 0 20 20">
-      <path d="M10 1.5c-4.2 0-7 3-7 6.2V9h14V7.7c0-3.2-2.800-6.200-7-6.200z" fill="#e3a72f" stroke="#7a4b12" stroke-width=".5"/>
-      <rect x="2.600" y="9" width="14.800" height="3.200" rx="1.600" fill="#c98a1d" stroke="#7a4b12" stroke-width=".5"/>
-      <rect x="3" y="12.300" width="14" height="3.200" rx="1.600" fill="#e3a72f" stroke="#7a4b12" stroke-width=".5"/>
-      <rect x="3.600" y="15.600" width="12.800" height="2.800" rx="1.400" fill="#c98a1d" stroke="#7a4b12" stroke-width=".5"/>
-      <ellipse cx="10" cy="6.500" rx="2" ry="1.700" fill="#3a2416"/>
-    </symbol>
-    <symbol id="rock" viewBox="0 0 20 20">
-      <path d="M2.500 16.500L4.500 8l5.500-3.500 6 3.500 1.800 8.500z" fill="#8a8178" stroke="#4d4640" stroke-width=".6" stroke-linejoin="round"/>
-      <path d="M4.500 8L10 4.500 9 10z" fill="#aaa196"/>
-    </symbol>
-    <symbol id="bush" viewBox="0 0 20 20">
-      <circle cx="6.500" cy="12.500" r="4.200" fill="#4f7a3a"/>
-      <circle cx="13.500" cy="12.500" r="4.200" fill="#47703a"/>
-      <circle cx="10" cy="8.800" r="4.600" fill="#5a8a42"/>
-      <circle cx="8.500" cy="8" r="1" fill="#7fae62"/>
-    </symbol>
-    <symbol id="flower-s" viewBox="0 0 20 20">
-      <g fill="#e58aa8" stroke="rgba(43,27,18,.3)" stroke-width=".3"><circle cx="10" cy="7" r="2.400"/><circle cx="13" cy="9.200" r="2.400"/><circle cx="11.900" cy="12.700" r="2.400"/><circle cx="8.100" cy="12.700" r="2.400"/><circle cx="7" cy="9.200" r="2.400"/></g>
-      <circle cx="10" cy="10.200" r="1.900" fill="#f6c453" stroke="#b9791a" stroke-width=".4"/>
-    </symbol>
-    <symbol id="flower-m" viewBox="0 0 20 20">
-      <g fill="#a77bd0" stroke="rgba(43,27,18,.3)" stroke-width=".3"><circle cx="10" cy="5.800" r="2.900"/><circle cx="14" cy="8.700" r="2.900"/><circle cx="12.500" cy="13.400" r="2.900"/><circle cx="7.500" cy="13.400" r="2.900"/><circle cx="6" cy="8.700" r="2.900"/></g>
-      <circle cx="10" cy="10.300" r="2.300" fill="#f6c453" stroke="#b9791a" stroke-width=".4"/>
-    </symbol>
-    <symbol id="flower-l" viewBox="0 0 20 20">
-      <g fill="#e2573f" stroke="rgba(43,27,18,.3)" stroke-width=".3"><circle cx="10" cy="5" r="3.500"/><circle cx="14.900" cy="8.600" r="3.500"/><circle cx="13" cy="14.200" r="3.500"/><circle cx="7" cy="14.200" r="3.500"/><circle cx="5.100" cy="8.600" r="3.500"/></g>
-      <circle cx="10" cy="10.600" r="2.800" fill="#f6c453" stroke="#b9791a" stroke-width=".4"/>
-    </symbol>
-  </defs>
-</svg>
+    <!-- ============ NAV ============ -->
+    <header class="nav dark-zone">
+      <div class="nav-in">
+        <a
+          class="brand"
+          href="#project"
+          aria-label="AI Bee Pollination Agent - أعلى الصفحة"
+        >
+          <svg width="28" height="28" aria-hidden="true">
+            <use href="#bee" width="28" height="28" />
+          </svg>
+          <span dir="ltr">Bee Agent</span>
+        </a>
+        <nav class="nav-links" id="navLinks" aria-label="أقسام الصفحة">
+          <a href="#project">المشروع</a>
+          <a href="#official">وصف الدكتور</a>
+          <a href="#demo">النتيجة</a>
+          <a href="#brains">العقول</a>
+          <a href="#phases">المراحل</a>
+          <a href="#roles">الأدوار</a>
+          <a href="#timeline">الجدول</a>
+        </nav>
+      </div>
+    </header>
 
-<!-- ============ NAV ============ -->
-<header class="nav dark-zone">
-  <div class="nav-in">
-    <a class="brand" href="#project" aria-label="AI Bee Pollination Agent - أعلى الصفحة">
-      <svg width="28" height="28" aria-hidden="true"><use href="#bee" width="28" height="28"/></svg>
-      <span dir="ltr">Bee Agent</span>
-    </a>
-    <nav class="nav-links" id="navLinks" aria-label="أقسام الصفحة">
-      <a href="#project">المشروع</a>
-      <a href="#official">وصف الدكتور</a>
-      <a href="#demo">النتيجة</a>
-      <a href="#brains">العقول</a>
-      <a href="#phases">المراحل</a>
-      <a href="#roles">الأدوار</a>
-      <a href="#timeline">الجدول</a>
-    </nav>
-  </div>
-</header>
-
-<main id="main">
-
-<!-- ============================================================
+    <main id="main">
+      <!-- ============================================================
      SECTION A : HERO / المشروع
 ============================================================ -->
-<section id="project" class="sec hero dark-zone" data-nav="project" aria-labelledby="hero-title">
-  <div class="wrap hero-grid">
-    <div class="hero-text">
-      <p class="kicker reveal">مشروع مادة الـ AI</p>
-      <h1 id="hero-title" class="reveal" dir="ltr">AI Bee <span>Pollination Agent</span></h1>
-      <p class="tagline reveal">نحلة + ٣ عقول + مقارنة</p>
-      <div class="story reveal">
-        <p>النحلة زي مندوب توصيل معاه بنزين محدود.</p>
-        <p>المطلوب منه يلف على أكبر عدد من العملاء (الورود) ياخد منهم أكبر نكتار ممكن،</p>
-        <p>ويرجع الشركة (الخلية) قبل ما البنزين (الطاقة) يخلص.</p>
-      </div>
-      <p class="highlight reveal">نفس النحلة، نفس الجنينة، بس ٣ عقول مختلفة، وفي الآخر نقارن مين الأحسن.</p>
-      <a class="btn reveal" href="#demo">شوفوا النتيجة النهائية
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16M5 13l7 7 7-7"/></svg>
-      </a>
-    </div>
+      <section
+        id="project"
+        class="sec hero dark-zone"
+        data-nav="project"
+        aria-labelledby="hero-title"
+      >
+        <div class="wrap hero-grid">
+          <div class="hero-text">
+            <p class="kicker reveal">مشروع مادة الـ AI</p>
+            <h1 id="hero-title" class="reveal" dir="ltr">
+              AI Bee <span>Pollination Agent</span>
+            </h1>
+            <p class="tagline reveal">نحلة + ٣ عقول + مقارنة</p>
+            <div class="story reveal">
+              <p>النحلة زي مندوب توصيل معاه بنزين محدود.</p>
+              <p>
+                المطلوب منه يلف على أكبر عدد من العملاء (الورود) ياخد منهم أكبر
+                نكتار ممكن،
+              </p>
+              <p>ويرجع الشركة (الخلية) قبل ما البنزين (الطاقة) يخلص.</p>
+            </div>
+            <p class="highlight reveal">
+              نفس النحلة، نفس الجنينة، بس ٣ عقول مختلفة، وفي الآخر نقارن مين
+              الأحسن.
+            </p>
+            <a class="btn reveal" href="#demo"
+              >شوفوا النتيجة النهائية
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.600"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 4v16M5 13l7 7 7-7" />
+              </svg>
+            </a>
+          </div>
 
-    <div class="hero-art reveal" aria-hidden="true">
-      <svg viewBox="0 0 400 320" role="presentation">
-        <defs>
-          <pattern id="hg" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#f7efe2" stroke-opacity=".1"/></pattern>
-        </defs>
-        <rect width="400" height="320" rx="24" fill="url(#hg)"/>
-        <path d="M60 250 C 100 110, 170 270, 215 160 S 330 70, 352 150 S 250 280, 60 250" fill="none" stroke="#e3a72f" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round" opacity=".8"/>
-        <use href="#hive" x="30" y="226" width="64" height="64"/>
-        <use href="#flower-m" x="190" y="126" width="56" height="56"/>
-        <use href="#flower-l" x="318" y="108" width="72" height="72"/>
-        <use href="#flower-s" x="150" y="226" width="44" height="44"/>
-        <use href="#rock" x="248" y="236" width="48" height="48"/>
-        <g>
-          <use href="#bee" x="-24" y="-24" width="48" height="48"/>
-          <animateMotion dur="11s" repeatCount="indefinite" path="M60 250 C 100 110, 170 270, 215 160 S 330 70, 352 150 S 250 280, 60 250"/>
-        </g>
-      </svg>
-    </div>
-  </div>
-</section>
+          <div class="hero-art reveal" aria-hidden="true">
+            <svg viewBox="0 0 400 320" role="presentation">
+              <defs>
+                <pattern
+                  id="hg"
+                  width="40"
+                  height="40"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <path
+                    d="M40 0H0V40"
+                    fill="none"
+                    stroke="#f7efe2"
+                    stroke-opacity=".1"
+                  />
+                </pattern>
+              </defs>
+              <rect width="400" height="320" rx="24" fill="url(#hg)" />
+              <path
+                d="M60 250 C 100 110, 170 270, 215 160 S 330 70, 352 150 S 250 280, 60 250"
+                fill="none"
+                stroke="#e3a72f"
+                stroke-width="3"
+                stroke-dasharray="2 9"
+                stroke-linecap="round"
+                opacity=".8"
+              />
+              <use href="#hive" x="30" y="226" width="64" height="64" />
+              <use href="#flower-m" x="190" y="126" width="56" height="56" />
+              <use href="#flower-l" x="318" y="108" width="72" height="72" />
+              <use href="#flower-s" x="150" y="226" width="44" height="44" />
+              <use href="#rock" x="248" y="236" width="48" height="48" />
+              <g>
+                <use href="#bee" x="-24" y="-24" width="48" height="48" />
+                <animateMotion
+                  dur="11s"
+                  repeatCount="indefinite"
+                  path="M60 250 C 100 110, 170 270, 215 160 S 330 70, 352 150 S 250 280, 60 250"
+                />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </section>
 
-<!-- ============================================================
+      <!-- ============================================================
      SECTION B : الوصف الرسمي
 ============================================================ -->
-<section id="official" class="sec official dark-zone" data-nav="official" aria-labelledby="official-h">
-  <div class="wrap">
-    <header class="sec-head reveal">
-      <span class="kicker">LMS</span>
-      <h2 id="official-h">وصف المشروع الرسمي من الدكتور (LMS)</h2>
-      <p>إحنا ماشيين بالظبط على الوصف الرسمي اللي نزل على الـ LMS، مش مجرد مشروع AI وخلاص. ده نصه:</p>
-    </header>
+      <section
+        id="official"
+        class="sec official dark-zone"
+        data-nav="official"
+        aria-labelledby="official-h"
+      >
+        <div class="wrap">
+          <header class="sec-head reveal">
+            <span class="kicker">LMS</span>
+            <h2 id="official-h">وصف المشروع الرسمي من الدكتور (LMS)</h2>
+            <p>
+              إحنا ماشيين بالظبط على الوصف الرسمي اللي نزل على الـ LMS، مش مجرد
+              مشروع AI وخلاص. ده نصه:
+            </p>
+          </header>
 
-    <blockquote class="quote reveal" lang="en" dir="ltr">
-      <p>Develop an intelligent bee agent that navigates through a simulated garden containing different types of flowers. Each flower provides a different amount of nectar, and the bee has limited energy for flying and collecting nectar.</p>
-      <p>The agent's objective is to collect as much nectar as possible while minimizing travel distance and energy consumption, then safely return to its hive.</p>
-      <p>The system should combine search algorithms for navigation, reinforcement learning to improve flower selection decisions, and optimization techniques to determine an efficient flower-visiting sequence.</p>
-      <p><strong>Search:</strong> Implement UCS and A* to find efficient routes between the hive and flower locations.</p>
-      <p><strong>Learning:</strong> Implement Q-Learning to train the bee to select flowers based on nectar rewards, travel costs, and remaining energy.</p>
-      <p><strong>Optimization:</strong> Apply a Genetic Algorithm or Hill Climbing to optimize the flower-visiting sequence and maximize total nectar collection.</p>
-      <p>Develop an interactive garden simulation containing flowers with different nectar values, obstacles, and a hive.</p>
-      <p>Visualize the bee's movement, selected flowers, planned routes, and remaining energy.</p>
-      <p>Display learning curves showing improvement in cumulative rewards across training episodes.</p>
-      <p>Compare Search-Based, Learning-Based, and Optimized strategies.</p>
-      <p>Evaluate performance using Total Nectar Collected, Travel Distance, Energy Consumption, Successful Hive Returns, and Execution Time.</p>
-    </blockquote>
+          <blockquote class="quote reveal" lang="en" dir="ltr">
+            <p>
+              Develop an intelligent bee agent that navigates through a
+              simulated garden containing different types of flowers. Each
+              flower provides a different amount of nectar, and the bee has
+              limited energy for flying and collecting nectar.
+            </p>
+            <p>
+              The agent's objective is to collect as much nectar as possible
+              while minimizing travel distance and energy consumption, then
+              safely return to its hive.
+            </p>
+            <p>
+              The system should combine search algorithms for navigation,
+              reinforcement learning to improve flower selection decisions, and
+              optimization techniques to determine an efficient flower-visiting
+              sequence.
+            </p>
+            <p>
+              <strong>Search:</strong> Implement UCS and A* to find efficient
+              routes between the hive and flower locations.
+            </p>
+            <p>
+              <strong>Learning:</strong> Implement Q-Learning to train the bee
+              to select flowers based on nectar rewards, travel costs, and
+              remaining energy.
+            </p>
+            <p>
+              <strong>Optimization:</strong> Apply a Genetic Algorithm or Hill
+              Climbing to optimize the flower-visiting sequence and maximize
+              total nectar collection.
+            </p>
+            <p>
+              Develop an interactive garden simulation containing flowers with
+              different nectar values, obstacles, and a hive.
+            </p>
+            <p>
+              Visualize the bee's movement, selected flowers, planned routes,
+              and remaining energy.
+            </p>
+            <p>
+              Display learning curves showing improvement in cumulative rewards
+              across training episodes.
+            </p>
+            <p>
+              Compare Search-Based, Learning-Based, and Optimized strategies.
+            </p>
+            <p>
+              Evaluate performance using Total Nectar Collected, Travel
+              Distance, Energy Consumption, Successful Hive Returns, and
+              Execution Time.
+            </p>
+          </blockquote>
 
-    <h3 class="sub reveal">المطلوب منا</h3>
-    <p class="sub-note reveal">٩ حاجات لازم تتسلم. اضغطوا على أي كارت عشان تعلّموا عليه (للتوضيح بس).</p>
+          <h3 class="sub reveal">المطلوب منا</h3>
+          <p class="sub-note reveal">
+            ٩ حاجات لازم تتسلم. اضغطوا على أي كارت عشان تعلّموا عليه (للتوضيح
+            بس).
+          </p>
 
-    <div class="deliv stagger">
-      <div class="dwrap"><input class="sr" type="checkbox" id="d1"><label class="dcard card" for="d1"><span class="dnum">1</span><span class="dbody"><b>[[Garden Simulation]] <small>(بيئة الجنينة)</small></b><span>[[Grid]] فيها خلية وورود بنكتار مختلف وعوائق.</span></span><span class="tick" aria-hidden="true"></span></label></div>
-      <div class="dwrap"><input class="sr" type="checkbox" id="d2"><label class="dcard card" for="d2"><span class="dnum">2</span><span class="dbody"><b>[[UCS]]</b><span>بيدوّر على أقل تكلفة للمسار من غير أي تخمين.</span></span><span class="tick" aria-hidden="true"></span></label></div>
-      <div class="dwrap"><input class="sr" type="checkbox" id="d3"><label class="dcard card" for="d3"><span class="dnum">3</span><span class="dbody"><b>[[A*]]</b><span>زي [[UCS]] بس بيستخدم تقدير ([[Heuristic]]) يخليه أسرع.</span></span><span class="tick" aria-hidden="true"></span></label></div>
-      <div class="dwrap"><input class="sr" type="checkbox" id="d4"><label class="dcard card" for="d4"><span class="dnum">4</span><span class="dbody"><b>[[Q-Learning]]</b><span>النحلة تتعلم تختار الوردة الجاية حسب النكتار وتكلفة المشي والطاقة الباقية.</span></span><span class="tick" aria-hidden="true"></span></label></div>
-      <div class="dwrap"><input class="sr" type="checkbox" id="d5"><label class="dcard card" for="d5"><span class="dnum">5</span><span class="dbody"><b>[[Genetic Algorithm]] أو [[Hill Climbing]]</b><span>يدوّروا على أحسن ترتيب لزيارة الورود.</span></span><span class="tick" aria-hidden="true"></span></label></div>
-      <div class="dwrap"><input class="sr" type="checkbox" id="d6"><label class="dcard card" for="d6"><span class="dnum">6</span><span class="dbody"><b>[[Visualization]]</b><span>عرض حركة النحلة والورود المختارة والمسارات المخططة والطاقة المتبقية.</span></span><span class="tick" aria-hidden="true"></span></label></div>
-      <div class="dwrap"><input class="sr" type="checkbox" id="d7"><label class="dcard card" for="d7"><span class="dnum">7</span><span class="dbody"><b>[[Learning Curves|Learning Curves]]</b><span>رسم بياني بيوضح تحسن الـ [[Cumulative Reward]] عبر الـ [[Episode|Episodes]].</span></span><span class="tick" aria-hidden="true"></span></label></div>
-      <div class="dwrap"><input class="sr" type="checkbox" id="d8"><label class="dcard card" for="d8"><span class="dnum">8</span><span class="dbody"><b>[[Strategy Comparison]]</b><span>مقارنة [[Search-Based]] مع [[Learning-Based]] مع [[Optimized]] على نفس الظروف.</span></span><span class="tick" aria-hidden="true"></span></label></div>
-      <div class="dwrap"><input class="sr" type="checkbox" id="d9"><label class="dcard card" for="d9"><span class="dnum">9</span><span class="dbody"><b>[[Evaluation]]</b><span>[[Total Nectar Collected]]، [[Travel Distance]]، [[Energy Consumption]]، [[Successful Hive Returns]]، [[Execution Time]].</span></span><span class="tick" aria-hidden="true"></span></label></div>
-    </div>
-    <p class="small-note reveal">غالبًا هيطلب تقرير وعرض تقديمي كمان، هنتأكد من الدكتور.</p>
-  </div>
-</section>
+          <div class="deliv stagger">
+            <div class="dwrap">
+              <input class="sr" type="checkbox" id="d1" /><label
+                class="dcard card"
+                for="d1"
+                ><span class="dnum">1</span
+                ><span class="dbody"
+                  ><b>[[Garden Simulation]] <small>(بيئة الجنينة)</small></b
+                  ><span
+                    >[[Grid]] فيها خلية وورود بنكتار مختلف وعوائق.</span
+                  ></span
+                ><span class="tick" aria-hidden="true"></span
+              ></label>
+            </div>
+            <div class="dwrap">
+              <input class="sr" type="checkbox" id="d2" /><label
+                class="dcard card"
+                for="d2"
+                ><span class="dnum">2</span
+                ><span class="dbody"
+                  ><b>[[UCS]]</b
+                  ><span
+                    >بيدوّر على أقل تكلفة للمسار من غير أي تخمين.</span
+                  ></span
+                ><span class="tick" aria-hidden="true"></span
+              ></label>
+            </div>
+            <div class="dwrap">
+              <input class="sr" type="checkbox" id="d3" /><label
+                class="dcard card"
+                for="d3"
+                ><span class="dnum">3</span
+                ><span class="dbody"
+                  ><b>[[A*]]</b
+                  ><span
+                    >زي [[UCS]] بس بيستخدم تقدير ([[Heuristic]]) يخليه
+                    أسرع.</span
+                  ></span
+                ><span class="tick" aria-hidden="true"></span
+              ></label>
+            </div>
+            <div class="dwrap">
+              <input class="sr" type="checkbox" id="d4" /><label
+                class="dcard card"
+                for="d4"
+                ><span class="dnum">4</span
+                ><span class="dbody"
+                  ><b>[[Q-Learning]]</b
+                  ><span
+                    >النحلة تتعلم تختار الوردة الجاية حسب النكتار وتكلفة المشي
+                    والطاقة الباقية.</span
+                  ></span
+                ><span class="tick" aria-hidden="true"></span
+              ></label>
+            </div>
+            <div class="dwrap">
+              <input class="sr" type="checkbox" id="d5" /><label
+                class="dcard card"
+                for="d5"
+                ><span class="dnum">5</span
+                ><span class="dbody"
+                  ><b>[[Genetic Algorithm]] أو [[Hill Climbing]]</b
+                  ><span>يدوّروا على أحسن ترتيب لزيارة الورود.</span></span
+                ><span class="tick" aria-hidden="true"></span
+              ></label>
+            </div>
+            <div class="dwrap">
+              <input class="sr" type="checkbox" id="d6" /><label
+                class="dcard card"
+                for="d6"
+                ><span class="dnum">6</span
+                ><span class="dbody"
+                  ><b>[[Visualization]]</b
+                  ><span
+                    >عرض حركة النحلة والورود المختارة والمسارات المخططة والطاقة
+                    المتبقية.</span
+                  ></span
+                ><span class="tick" aria-hidden="true"></span
+              ></label>
+            </div>
+            <div class="dwrap">
+              <input class="sr" type="checkbox" id="d7" /><label
+                class="dcard card"
+                for="d7"
+                ><span class="dnum">7</span
+                ><span class="dbody"
+                  ><b>[[Learning Curves|Learning Curves]]</b
+                  ><span
+                    >رسم بياني بيوضح تحسن الـ [[Cumulative Reward]] عبر الـ
+                    [[Episode|Episodes]].</span
+                  ></span
+                ><span class="tick" aria-hidden="true"></span
+              ></label>
+            </div>
+            <div class="dwrap">
+              <input class="sr" type="checkbox" id="d8" /><label
+                class="dcard card"
+                for="d8"
+                ><span class="dnum">8</span
+                ><span class="dbody"
+                  ><b>[[Strategy Comparison]]</b
+                  ><span
+                    >مقارنة [[Search-Based]] مع [[Learning-Based]] مع
+                    [[Optimized]] على نفس الظروف.</span
+                  ></span
+                ><span class="tick" aria-hidden="true"></span
+              ></label>
+            </div>
+            <div class="dwrap">
+              <input class="sr" type="checkbox" id="d9" /><label
+                class="dcard card"
+                for="d9"
+                ><span class="dnum">9</span
+                ><span class="dbody"
+                  ><b>[[Evaluation]]</b
+                  ><span
+                    >[[Total Nectar Collected]]، [[Travel Distance]]، [[Energy
+                    Consumption]]، [[Successful Hive Returns]]، [[Execution
+                    Time]].</span
+                  ></span
+                ><span class="tick" aria-hidden="true"></span
+              ></label>
+            </div>
+          </div>
+          <p class="small-note reveal">
+            غالبًا هيطلب تقرير وعرض تقديمي كمان، هنتأكد من الدكتور.
+          </p>
+        </div>
+      </section>
 
-<!-- ============================================================
+      <!-- ============================================================
      SECTION C : النتيجة النهائية (Interactive demo mockup)
 ============================================================ -->
-<section id="demo" class="sec demo dark-zone" data-nav="demo" aria-labelledby="demo-h">
-  <div class="wrap">
-    <header class="sec-head reveal">
-      <span class="kicker">النتيجة النهائية</span>
-      <h2 id="demo-h">ده الشكل اللي المشروع هيطلع بيه</h2>
-    </header>
+      <section
+        id="demo"
+        class="sec demo dark-zone"
+        data-nav="demo"
+        aria-labelledby="demo-h"
+      >
+        <div class="wrap">
+          <header class="sec-head reveal">
+            <span class="kicker">النتيجة النهائية</span>
+            <h2 id="demo-h">ده الشكل اللي المشروع هيطلع بيه</h2>
+          </header>
 
-    <div class="banner reveal" role="note">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.500v.1"/></svg>
-      <p>ده تصور للشكل المتوقع للمشروع، الحركة والأرقام هنا مكتوبة مسبقًا للتوضيح وليست نتيجة خوارزمية حقيقية</p>
-    </div>
+          <div class="banner reveal" role="note">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 11v6M12 7.500v.1" />
+            </svg>
+            <p>
+              ده تصور للشكل المتوقع للمشروع، الحركة والأرقام هنا مكتوبة مسبقًا
+              للتوضيح وليست نتيجة خوارزمية حقيقية
+            </p>
+          </div>
 
-    <div class="tabs reveal" role="tablist" aria-label="اختيار الاستراتيجية" id="strategyTabs">
-      <button role="tab" id="stab-0" aria-selected="true" aria-controls="demoPanel" dir="ltr">Search-Based</button>
-      <button role="tab" id="stab-1" aria-selected="false" aria-controls="demoPanel" tabindex="-1" dir="ltr">Learning-Based</button>
-      <button role="tab" id="stab-2" aria-selected="false" aria-controls="demoPanel" tabindex="-1" dir="ltr">Optimized</button>
-    </div>
-    <p id="stratDesc" class="strat-desc"></p>
+          <div
+            class="tabs reveal"
+            role="tablist"
+            aria-label="اختيار الاستراتيجية"
+            id="strategyTabs"
+          >
+            <button
+              role="tab"
+              id="stab-0"
+              aria-selected="true"
+              aria-controls="demoPanel"
+              dir="ltr"
+            >
+              Search-Based
+            </button>
+            <button
+              role="tab"
+              id="stab-1"
+              aria-selected="false"
+              aria-controls="demoPanel"
+              tabindex="-1"
+              dir="ltr"
+            >
+              Learning-Based
+            </button>
+            <button
+              role="tab"
+              id="stab-2"
+              aria-selected="false"
+              aria-controls="demoPanel"
+              tabindex="-1"
+              dir="ltr"
+            >
+              Optimized
+            </button>
+          </div>
+          <p id="stratDesc" class="strat-desc"></p>
 
-    <div class="demo-grid" id="demoPanel" role="tabpanel" aria-labelledby="stab-0">
-      <div class="card board-card">
-        <svg id="board" class="board" viewBox="0 0 100 100" role="img" aria-label="جنينة 10 في 10 فيها خلية وورود وعوائق ونحلة بتتحرك على مسار مخطط"></svg>
-      </div>
+          <div
+            class="demo-grid"
+            id="demoPanel"
+            role="tabpanel"
+            aria-labelledby="stab-0"
+          >
+            <div class="card board-card">
+              <svg
+                id="board"
+                class="board"
+                viewBox="0 0 100 100"
+                role="img"
+                aria-label="جنينة 10 في 10 فيها خلية وورود وعوائق ونحلة بتتحرك على مسار مخطط"
+              ></svg>
+            </div>
 
-      <div class="card panel">
-        <p id="status" class="status" aria-live="polite">النحلة جاهزة في الخلية. اضغطوا تشغيل.</p>
+            <div class="card panel">
+              <p id="status" class="status" aria-live="polite">
+                النحلة جاهزة في الخلية. اضغطوا تشغيل.
+              </p>
 
-        <div class="meter">
-          <div class="meter-top"><span>الطاقة ([[Energy Model|Energy]])</span><span dir="ltr"><b id="energyNum">100</b> / 100</span></div>
-          <div class="bar" id="energyBar" role="progressbar" aria-label="الطاقة المتبقية" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span id="energyFill"></span></div>
+              <div class="meter">
+                <div class="meter-top">
+                  <span>الطاقة ([[Energy Model|Energy]])</span
+                  ><span dir="ltr"><b id="energyNum">100</b> / 100</span>
+                </div>
+                <div
+                  class="bar"
+                  id="energyBar"
+                  role="progressbar"
+                  aria-label="الطاقة المتبقية"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="100"
+                >
+                  <span id="energyFill"></span>
+                </div>
+              </div>
+
+              <div class="stats">
+                <div class="stat">
+                  <small>Total Nectar</small><b id="nectarNum">0</b>
+                </div>
+                <div class="stat">
+                  <small>Steps</small><b id="stepsNum">0</b>
+                </div>
+                <div class="stat">
+                  <small>الورود</small><b id="flowersNum" dir="ltr">0/4</b>
+                </div>
+              </div>
+
+              <div class="controls">
+                <button class="btn sm" id="btnPlay" type="button">تشغيل</button>
+                <button class="btn sm ghost" id="btnPause" type="button">
+                  إيقاف
+                </button>
+                <button class="btn sm ghost" id="btnReset" type="button">
+                  إعادة
+                </button>
+                <label class="speed"
+                  >السرعة
+                  <select id="speed">
+                    <option value="slow">بطيء</option>
+                    <option value="normal" selected>عادي</option>
+                    <option value="fast">سريع</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="card legend reveal" aria-label="مفتاح الرموز">
+            <h3>الرموز</h3>
+            <ul>
+              <li>
+                <svg width="34" height="34" aria-hidden="true">
+                  <use href="#hive" width="34" height="34" /></svg
+                >خلية
+              </li>
+              <li>
+                <svg width="34" height="34" aria-hidden="true">
+                  <use href="#flower-s" width="34" height="34" /></svg
+                >وردة صغيرة (5)
+              </li>
+              <li>
+                <svg width="34" height="34" aria-hidden="true">
+                  <use href="#flower-m" width="34" height="34" /></svg
+                >وردة متوسطة (10)
+              </li>
+              <li>
+                <svg width="34" height="34" aria-hidden="true">
+                  <use href="#flower-l" width="34" height="34" /></svg
+                >وردة كبيرة (20)
+              </li>
+              <li>
+                <svg width="34" height="34" aria-hidden="true">
+                  <use href="#rock" width="34" height="34" /></svg
+                >عائق (صخرة)
+              </li>
+              <li>
+                <svg width="34" height="34" aria-hidden="true">
+                  <use href="#bush" width="34" height="34" /></svg
+                >عائق (شجيرة)
+              </li>
+              <li>
+                <svg width="34" height="34" aria-hidden="true">
+                  <use href="#bee" width="34" height="34" /></svg
+                >النحلة
+              </li>
+              <li>
+                <svg width="34" height="34" aria-hidden="true">
+                  <path
+                    d="M3 17C12 4 22 30 31 17"
+                    fill="none"
+                    stroke="#4a2f1d"
+                    stroke-width="2.500"
+                    stroke-dasharray=".1 5"
+                    stroke-linecap="round"
+                  /></svg
+                >المسار المخطط
+              </li>
+            </ul>
+          </div>
+
+          <h3 class="sub reveal">مقارنة الاستراتيجيات التلاتة</h3>
+          <div class="card reveal" id="cmpWrap"><div id="cmpTable"></div></div>
+          <p class="small-note reveal">
+            المسافة والطاقة والنكتار محسوبة من المسارات المكتوبة مسبقًا في العرض
+            فوق. أما الـ Execution Time وعدد الرجوع الناجح (من ١٠ تجارب) فأرقام
+            توضيحية بس.
+          </p>
+
+          <h3 class="sub reveal">رسم توضيحي للتعلم</h3>
+          <figure class="card curve-card reveal">
+            <svg
+              id="curve"
+              class="curve"
+              viewBox="0 0 600 300"
+              role="img"
+              aria-label="رسم توضيحي لخط بيطلع مع الوقت بيمثل تحسن الـ Cumulative Reward عبر الـ Episodes"
+            ></svg>
+            <figcaption>
+              رسم توضيحي لتحسن الـ [[Cumulative Reward]] مع الـ
+              [[Episode|Episodes]]
+            </figcaption>
+          </figure>
         </div>
+      </section>
 
-        <div class="stats">
-          <div class="stat"><small>Total Nectar</small><b id="nectarNum">0</b></div>
-          <div class="stat"><small>Steps</small><b id="stepsNum">0</b></div>
-          <div class="stat"><small>الورود</small><b id="flowersNum" dir="ltr">0/4</b></div>
-        </div>
-
-        <div class="controls">
-          <button class="btn sm" id="btnPlay" type="button">تشغيل</button>
-          <button class="btn sm ghost" id="btnPause" type="button">إيقاف</button>
-          <button class="btn sm ghost" id="btnReset" type="button">إعادة</button>
-          <label class="speed">السرعة
-            <select id="speed">
-              <option value="slow">بطيء</option>
-              <option value="normal" selected>عادي</option>
-              <option value="fast">سريع</option>
-            </select>
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="card legend reveal" aria-label="مفتاح الرموز">
-      <h3>الرموز</h3>
-      <ul>
-        <li><svg width="34" height="34" aria-hidden="true"><use href="#hive" width="34" height="34"/></svg>خلية</li>
-        <li><svg width="34" height="34" aria-hidden="true"><use href="#flower-s" width="34" height="34"/></svg>وردة صغيرة (5)</li>
-        <li><svg width="34" height="34" aria-hidden="true"><use href="#flower-m" width="34" height="34"/></svg>وردة متوسطة (10)</li>
-        <li><svg width="34" height="34" aria-hidden="true"><use href="#flower-l" width="34" height="34"/></svg>وردة كبيرة (20)</li>
-        <li><svg width="34" height="34" aria-hidden="true"><use href="#rock" width="34" height="34"/></svg>عائق (صخرة)</li>
-        <li><svg width="34" height="34" aria-hidden="true"><use href="#bush" width="34" height="34"/></svg>عائق (شجيرة)</li>
-        <li><svg width="34" height="34" aria-hidden="true"><use href="#bee" width="34" height="34"/></svg>النحلة</li>
-        <li><svg width="34" height="34" aria-hidden="true"><path d="M3 17C12 4 22 30 31 17" fill="none" stroke="#4a2f1d" stroke-width="2.500" stroke-dasharray=".1 5" stroke-linecap="round"/></svg>المسار المخطط</li>
-      </ul>
-    </div>
-
-    <h3 class="sub reveal">مقارنة الاستراتيجيات التلاتة</h3>
-    <div class="card reveal" id="cmpWrap"><div id="cmpTable"></div></div>
-    <p class="small-note reveal">المسافة والطاقة والنكتار محسوبة من المسارات المكتوبة مسبقًا في العرض فوق. أما الـ Execution Time وعدد الرجوع الناجح (من ١٠ تجارب) فأرقام توضيحية بس.</p>
-
-    <h3 class="sub reveal">رسم توضيحي للتعلم</h3>
-    <figure class="card curve-card reveal">
-      <svg id="curve" class="curve" viewBox="0 0 600 300" role="img" aria-label="رسم توضيحي لخط بيطلع مع الوقت بيمثل تحسن الـ Cumulative Reward عبر الـ Episodes"></svg>
-      <figcaption>رسم توضيحي لتحسن الـ [[Cumulative Reward]] مع الـ [[Episode|Episodes]]</figcaption>
-    </figure>
-  </div>
-</section>
-
-<!-- ============================================================
+      <!-- ============================================================
      SECTION D : العقول التلاتة
 ============================================================ -->
-<section id="brains" class="sec brains" data-nav="brains" aria-labelledby="brains-h">
-  <div class="wrap">
-    <header class="sec-head reveal">
-      <span class="kicker">The 3 Strategies</span>
-      <h2 id="brains-h">نفس النحلة، ٣ عقول</h2>
-    </header>
+      <section
+        id="brains"
+        class="sec brains"
+        data-nav="brains"
+        aria-labelledby="brains-h"
+      >
+        <div class="wrap">
+          <header class="sec-head reveal">
+            <span class="kicker">The 3 Strategies</span>
+            <h2 id="brains-h">نفس النحلة، ٣ عقول</h2>
+          </header>
 
-    <div class="brain-grid stagger">
-      <article class="card brain b-search">
-        <svg viewBox="0 0 160 90" role="img" aria-label="خريطة فيها مسار أقصر طريق من الخلية للوردة">
-          <rect width="160" height="90" rx="14" fill="#e3edcf"/>
-          <use href="#rock" x="58" y="26" width="30" height="30"/>
-          <path d="M34 68 C 60 70, 52 22, 100 22 S 118 52, 132 44" fill="none" stroke="#4a2f1d" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/>
-          <use href="#hive" x="12" y="52" width="32" height="32"/>
-          <use href="#flower-l" x="118" y="22" width="34" height="34"/>
-        </svg>
-        <h3>Search-Based Brain <small>(عقل البحث)</small></h3>
-        <p class="analogy">زي الـ GPS بيحسب أقصر طريق.</p>
-        <p class="techs"><span>الأدوات:</span> [[UCS]] [[A*]]</p>
-        <p>الاستراتيجية اللي بتتبني فوقه اسمها [[Greedy]]: كل مرة تروح لأقرب وردة أو أحسن وردة بالنسبة للتكلفة، وتتأكد إن طاقتها تكفي للرجوع.</p>
-        <p class="ask"><b>بتجاوب على سؤال:</b> "أروح فين بأقل مسافة وطاقة؟"</p>
-      </article>
+          <div class="brain-grid stagger">
+            <article class="card brain b-search">
+              <svg
+                viewBox="0 0 160 90"
+                role="img"
+                aria-label="خريطة فيها مسار أقصر طريق من الخلية للوردة"
+              >
+                <rect width="160" height="90" rx="14" fill="#e3edcf" />
+                <use href="#rock" x="58" y="26" width="30" height="30" />
+                <path
+                  d="M34 68 C 60 70, 52 22, 100 22 S 118 52, 132 44"
+                  fill="none"
+                  stroke="#4a2f1d"
+                  stroke-width="3"
+                  stroke-dasharray="1 7"
+                  stroke-linecap="round"
+                />
+                <use href="#hive" x="12" y="52" width="32" height="32" />
+                <use href="#flower-l" x="118" y="22" width="34" height="34" />
+              </svg>
+              <h3>Search-Based Brain <small>(عقل البحث)</small></h3>
+              <p class="analogy">زي الـ GPS بيحسب أقصر طريق.</p>
+              <p class="techs"><span>الأدوات:</span> [[UCS]] [[A*]]</p>
+              <p>
+                الاستراتيجية اللي بتتبني فوقه اسمها [[Greedy]]: كل مرة تروح
+                لأقرب وردة أو أحسن وردة بالنسبة للتكلفة، وتتأكد إن طاقتها تكفي
+                للرجوع.
+              </p>
+              <p class="ask">
+                <b>بتجاوب على سؤال:</b> "أروح فين بأقل مسافة وطاقة؟"
+              </p>
+            </article>
 
-      <article class="card brain b-learn">
-        <svg viewBox="0 0 160 90" role="img" aria-label="جدول قيم بتتعلمه النحلة ونجمة مكافأة">
-          <rect width="160" height="90" rx="14" fill="#fbefcf"/>
-          <g stroke="#b98a5e" stroke-width="1.200">
-            <rect x="14" y="14" width="26" height="20" rx="4" fill="#e3a72f" fill-opacity=".15"/><rect x="42" y="14" width="26" height="20" rx="4" fill="#e3a72f" fill-opacity=".35"/><rect x="70" y="14" width="26" height="20" rx="4" fill="#e3a72f" fill-opacity=".6"/>
-            <rect x="14" y="36" width="26" height="20" rx="4" fill="#e3a72f" fill-opacity=".25"/><rect x="42" y="36" width="26" height="20" rx="4" fill="#e3a72f" fill-opacity=".5"/><rect x="70" y="36" width="26" height="20" rx="4" fill="#e3a72f" fill-opacity=".85"/>
-            <rect x="14" y="58" width="26" height="20" rx="4" fill="#e3a72f" fill-opacity=".1"/><rect x="42" y="58" width="26" height="20" rx="4" fill="#e3a72f" fill-opacity=".3"/><rect x="70" y="58" width="26" height="20" rx="4" fill="#e3a72f" fill-opacity=".55"/>
-          </g>
-          <text x="55" y="12" font-family="JetBrains Mono, monospace" font-size="8" text-anchor="middle" fill="#6f4a2f">Q-Table</text>
-          <path d="M100 46h16" stroke="#6f4a2f" stroke-width="3" stroke-linecap="round"/>
-          <path d="M112 40l7 6-7 6" fill="none" stroke="#6f4a2f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M138 28l4 9 10 1-7.500 6.500 2.500 9.500-9-5-9 5 2.500-9.500L124 38l10-1z" fill="#e3a72f" stroke="#7a4b12" stroke-width="1.200" stroke-linejoin="round"/>
-        </svg>
-        <h3>Learning-Based Brain <small>(عقل التعلم)</small></h3>
-        <p class="analogy">زي حد بيتعلم بالتجربة والغلط، كل ما يعمل صح ياخد مكافأة.</p>
-        <p class="techs"><span>الأداة:</span> [[Q-Learning]] ([[Reinforcement Learning]])</p>
-        <p>الـ [[State]] = وضع النحلة، الـ [[Action]] = الوردة الجاية، الـ [[Reward]] = النكتار ناقص تكلفة المشي.</p>
-        <p class="ask"><b>بتجاوب على سؤال:</b> "أنهي وردة أزورها دلوقتي؟"</p>
-      </article>
+            <article class="card brain b-learn">
+              <svg
+                viewBox="0 0 160 90"
+                role="img"
+                aria-label="جدول قيم بتتعلمه النحلة ونجمة مكافأة"
+              >
+                <rect width="160" height="90" rx="14" fill="#fbefcf" />
+                <g stroke="#b98a5e" stroke-width="1.200">
+                  <rect
+                    x="14"
+                    y="14"
+                    width="26"
+                    height="20"
+                    rx="4"
+                    fill="#e3a72f"
+                    fill-opacity=".15"
+                  />
+                  <rect
+                    x="42"
+                    y="14"
+                    width="26"
+                    height="20"
+                    rx="4"
+                    fill="#e3a72f"
+                    fill-opacity=".35"
+                  />
+                  <rect
+                    x="70"
+                    y="14"
+                    width="26"
+                    height="20"
+                    rx="4"
+                    fill="#e3a72f"
+                    fill-opacity=".6"
+                  />
+                  <rect
+                    x="14"
+                    y="36"
+                    width="26"
+                    height="20"
+                    rx="4"
+                    fill="#e3a72f"
+                    fill-opacity=".25"
+                  />
+                  <rect
+                    x="42"
+                    y="36"
+                    width="26"
+                    height="20"
+                    rx="4"
+                    fill="#e3a72f"
+                    fill-opacity=".5"
+                  />
+                  <rect
+                    x="70"
+                    y="36"
+                    width="26"
+                    height="20"
+                    rx="4"
+                    fill="#e3a72f"
+                    fill-opacity=".85"
+                  />
+                  <rect
+                    x="14"
+                    y="58"
+                    width="26"
+                    height="20"
+                    rx="4"
+                    fill="#e3a72f"
+                    fill-opacity=".1"
+                  />
+                  <rect
+                    x="42"
+                    y="58"
+                    width="26"
+                    height="20"
+                    rx="4"
+                    fill="#e3a72f"
+                    fill-opacity=".3"
+                  />
+                  <rect
+                    x="70"
+                    y="58"
+                    width="26"
+                    height="20"
+                    rx="4"
+                    fill="#e3a72f"
+                    fill-opacity=".55"
+                  />
+                </g>
+                <text
+                  x="55"
+                  y="12"
+                  font-family="JetBrains Mono, monospace"
+                  font-size="8"
+                  text-anchor="middle"
+                  fill="#6f4a2f"
+                >
+                  Q-Table
+                </text>
+                <path
+                  d="M100 46h16"
+                  stroke="#6f4a2f"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M112 40l7 6-7 6"
+                  fill="none"
+                  stroke="#6f4a2f"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M138 28l4 9 10 1-7.500 6.500 2.500 9.500-9-5-9 5 2.500-9.500L124 38l10-1z"
+                  fill="#e3a72f"
+                  stroke="#7a4b12"
+                  stroke-width="1.200"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <h3>Learning-Based Brain <small>(عقل التعلم)</small></h3>
+              <p class="analogy">
+                زي حد بيتعلم بالتجربة والغلط، كل ما يعمل صح ياخد مكافأة.
+              </p>
+              <p class="techs">
+                <span>الأداة:</span> [[Q-Learning]] ([[Reinforcement Learning]])
+              </p>
+              <p>
+                الـ [[State]] = وضع النحلة، الـ [[Action]] = الوردة الجاية، الـ
+                [[Reward]] = النكتار ناقص تكلفة المشي.
+              </p>
+              <p class="ask">
+                <b>بتجاوب على سؤال:</b> "أنهي وردة أزورها دلوقتي؟"
+              </p>
+            </article>
 
-      <article class="card brain b-opt">
-        <svg viewBox="0 0 160 90" role="img" aria-label="ورود مرقمة بترتيب الزيارة وأسهم بينهم">
-          <rect width="160" height="90" rx="14" fill="#f6dcd3"/>
-          <use href="#flower-s" x="10" y="40" width="40" height="40"/>
-          <use href="#flower-l" x="60" y="40" width="40" height="40"/>
-          <use href="#flower-m" x="110" y="40" width="40" height="40"/>
-          <g fill="#2b1b12"><circle cx="30" cy="30" r="9"/><circle cx="80" cy="30" r="9"/><circle cx="130" cy="30" r="9"/></g>
-          <g fill="#fff" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle"><text x="30" y="34">1</text><text x="80" y="34">2</text><text x="130" y="34">3</text></g>
-          <path d="M40 26 Q55 10 70 26M90 26 Q105 10 120 26" fill="none" stroke="#a4472f" stroke-width="2.500" stroke-linecap="round"/>
-          <path d="M64 21l6 5-7 2M114 21l6 5-7 2" fill="none" stroke="#a4472f" stroke-width="2.500" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <h3>Optimized Brain <small>(عقل التحسين)</small></h3>
-        <p class="analogy">زي ما بترتب مشاويرك عشان توفر وقت وبنزين.</p>
-        <p class="techs"><span>الأدوات:</span> [[Genetic Algorithm]] أو [[Hill Climbing]]</p>
-        <p class="ask"><b>بتجاوب على سؤال:</b> "إيه أحسن ترتيب أزور بيه الورود؟"</p>
-      </article>
-    </div>
+            <article class="card brain b-opt">
+              <svg
+                viewBox="0 0 160 90"
+                role="img"
+                aria-label="ورود مرقمة بترتيب الزيارة وأسهم بينهم"
+              >
+                <rect width="160" height="90" rx="14" fill="#f6dcd3" />
+                <use href="#flower-s" x="10" y="40" width="40" height="40" />
+                <use href="#flower-l" x="60" y="40" width="40" height="40" />
+                <use href="#flower-m" x="110" y="40" width="40" height="40" />
+                <g fill="#2b1b12">
+                  <circle cx="30" cy="30" r="9" />
+                  <circle cx="80" cy="30" r="9" />
+                  <circle cx="130" cy="30" r="9" />
+                </g>
+                <g
+                  fill="#fff"
+                  font-family="JetBrains Mono, monospace"
+                  font-size="11"
+                  font-weight="700"
+                  text-anchor="middle"
+                >
+                  <text x="30" y="34">1</text>
+                  <text x="80" y="34">2</text>
+                  <text x="130" y="34">3</text>
+                </g>
+                <path
+                  d="M40 26 Q55 10 70 26M90 26 Q105 10 120 26"
+                  fill="none"
+                  stroke="#a4472f"
+                  stroke-width="2.500"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M64 21l6 5-7 2M114 21l6 5-7 2"
+                  fill="none"
+                  stroke="#a4472f"
+                  stroke-width="2.500"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <h3>Optimized Brain <small>(عقل التحسين)</small></h3>
+              <p class="analogy">زي ما بترتب مشاويرك عشان توفر وقت وبنزين.</p>
+              <p class="techs">
+                <span>الأدوات:</span> [[Genetic Algorithm]] أو [[Hill Climbing]]
+              </p>
+              <p class="ask">
+                <b>بتجاوب على سؤال:</b> "إيه أحسن ترتيب أزور بيه الورود؟"
+              </p>
+            </article>
+          </div>
 
-    <div class="card flow-card reveal">
-      <h3>إزاي بيتربطوا ببعض</h3>
-      <div class="flow" role="group" aria-label="مخطط ترابط العقول">
-        <div class="fnode"><b>Environment</b><small>الجنينة بقواعدها</small></div>
-        <span class="farrow" aria-hidden="true"></span>
-        <div class="fnode hl"><b>A*</b><small>بيحسب Distance Matrix: خلية↔وردة و وردة↔وردة</small></div>
-        <span class="farrow" aria-hidden="true"></span>
-        <div class="fbranch">
-          <div class="fnode opt"><b>Optimized Brain</b><small>بيقيّم أي ترتيب ورود (Fitness)</small></div>
-          <div class="fnode learn"><b>Learning Brain</b><small>بيحسب تكلفة المشي (Reward)</small></div>
+          <div class="card flow-card reveal">
+            <h3>إزاي بيتربطوا ببعض</h3>
+            <div class="flow" role="group" aria-label="مخطط ترابط العقول">
+              <div class="fnode">
+                <b>Environment</b><small>الجنينة بقواعدها</small>
+              </div>
+              <span class="farrow" aria-hidden="true"></span>
+              <div class="fnode hl">
+                <b>A*</b
+                ><small>بيحسب Distance Matrix: خلية↔وردة و وردة↔وردة</small>
+              </div>
+              <span class="farrow" aria-hidden="true"></span>
+              <div class="fbranch">
+                <div class="fnode opt">
+                  <b>Optimized Brain</b
+                  ><small>بيقيّم أي ترتيب ورود (Fitness)</small>
+                </div>
+                <div class="fnode learn">
+                  <b>Learning Brain</b><small>بيحسب تكلفة المشي (Reward)</small>
+                </div>
+              </div>
+              <span class="farrow" aria-hidden="true"></span>
+              <div class="fnode end">
+                <b>المقارنة النهائية</b><small>كل العقول على نفس الظروف</small>
+              </div>
+            </div>
+            <p class="insight">
+              الـ [[A*]] هو اللي بيحسب المسافة الحقيقية مع تفادي العوائق، وباقي
+              العقول بتعتمد عليه.
+            </p>
+          </div>
         </div>
-        <span class="farrow" aria-hidden="true"></span>
-        <div class="fnode end"><b>المقارنة النهائية</b><small>كل العقول على نفس الظروف</small></div>
-      </div>
-      <p class="insight">الـ [[A*]] هو اللي بيحسب المسافة الحقيقية مع تفادي العوائق، وباقي العقول بتعتمد عليه.</p>
-    </div>
-  </div>
-</section>
+      </section>
 
-<!-- ============================================================
+      <!-- ============================================================
      SECTION E : قواعد البيئة
 ============================================================ -->
-<section id="rules" class="sec rules" data-nav="brains" aria-labelledby="rules-h">
-  <div class="wrap">
-    <header class="sec-head reveal">
-      <span class="kicker">Environment Rules</span>
-      <h2 id="rules-h">قواعد الجنينة (مقترحة ولسه ممكن تتعدل)</h2>
-      <p>القواعد دي هي "قواعد اللعبة": الهدف إن كل الفريق يفترض نفس الحاجات، فمحدش يبني على افتراض مختلف عن التاني.</p>
-    </header>
+      <section
+        id="rules"
+        class="sec rules"
+        data-nav="brains"
+        aria-labelledby="rules-h"
+      >
+        <div class="wrap">
+          <header class="sec-head reveal">
+            <span class="kicker">Environment Rules</span>
+            <h2 id="rules-h">قواعد الجنينة (مقترحة ولسه ممكن تتعدل)</h2>
+            <p>
+              القواعد دي هي "قواعد اللعبة": الهدف إن كل الفريق يفترض نفس
+              الحاجات، فمحدش يبني على افتراض مختلف عن التاني.
+            </p>
+          </header>
 
-    <div class="card table-card reveal">
-      <table class="rtable">
-        <caption class="sr">جدول قواعد الجنينة المقترحة</caption>
-        <tbody>
-          <tr><th scope="row">[[Grid]] size</th><td><span class="ltr">15x15</span> (للتقييم والعرض) و <span class="ltr">8x8</span> (للتطوير والتجريب)</td></tr>
-          <tr><th scope="row">Flower types</th><td><span class="ltr">small = 5</span> nectar، <span class="ltr">medium = 10</span>، <span class="ltr">large = 20</span></td></tr>
-          <tr><th scope="row">Obstacles</th><td>حوالي 15-20% من الخانات</td></tr>
-          <tr><th scope="row">Initial Energy</th><td><span class="ltr">100</span></td></tr>
-          <tr><th scope="row">Step cost</th><td><span class="ltr">1 energy</span> (حركة في 4 اتجاهات)</td></tr>
-          <tr><th scope="row">Nectar collection</th><td>مرة واحدة لكل وردة وبعدها تفضى</td></tr>
-          <tr><th scope="row">Episode ends</th><td>الرجوع للخلية أو نفاد الطاقة</td></tr>
-          <tr><th scope="row">Energy runs out away from hive</th><td>فشل (<span class="ltr">Successful Hive Return = لا</span>)</td></tr>
-          <tr><th scope="row">Map</th><td>ثابتة أو عشوائية بـ [[Seed|seed]] ثابت عشان نكرر نفس التجربة</td></tr>
-        </tbody>
-      </table>
-    </div>
+          <div class="card table-card reveal">
+            <table class="rtable">
+              <caption class="sr">
+                جدول قواعد الجنينة المقترحة
+              </caption>
+              <tbody>
+                <tr>
+                  <th scope="row">[[Grid]] size</th>
+                  <td>
+                    <span class="ltr">15x15</span> (للتقييم والعرض) و
+                    <span class="ltr">8x8</span> (للتطوير والتجريب)
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Flower types</th>
+                  <td>
+                    <span class="ltr">small = 5</span> nectar،
+                    <span class="ltr">medium = 10</span>،
+                    <span class="ltr">large = 20</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Obstacles</th>
+                  <td>حوالي 15-20% من الخانات</td>
+                </tr>
+                <tr>
+                  <th scope="row">Initial Energy</th>
+                  <td><span class="ltr">100</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">Step cost</th>
+                  <td><span class="ltr">1 energy</span> (حركة في 4 اتجاهات)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Nectar collection</th>
+                  <td>مرة واحدة لكل وردة وبعدها تفضى</td>
+                </tr>
+                <tr>
+                  <th scope="row">Episode ends</th>
+                  <td>الرجوع للخلية أو نفاد الطاقة</td>
+                </tr>
+                <tr>
+                  <th scope="row">Energy runs out away from hive</th>
+                  <td>
+                    فشل (<span class="ltr">Successful Hive Return = لا</span>)
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Map</th>
+                  <td>
+                    ثابتة أو عشوائية بـ [[Seed|seed]] ثابت عشان نكرر نفس التجربة
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-    <div class="accs">
-      <div class="acc card reveal">
-        <h3><button class="acc-btn" type="button" id="accb-1" aria-expanded="false" aria-controls="accp-1">ليه بنبدأ بجنينة صغيرة؟<span class="chev" aria-hidden="true"></span></button></h3>
-        <div class="acc-panel" id="accp-1" role="region" aria-labelledby="accb-1"><div class="acc-inner">
-          <ul>
-            <li>لأن حجم الجنينة مجرد رقم في الكود فالتكبير بعدين سهل.</li>
-            <li>على 8x8 نقدر نتأكد من الحل بإيدينا ونرسم الطريق بالقلم.</li>
-            <li>الـ [[Debugging]] أسهل.</li>
-            <li>الـ [[Q-Learning]] محتاج آلاف الـ [[Episode|Episodes]] فبيخلص في ثواني.</li>
-            <li>وكل التيمات تبدأ بسرعة.</li>
-          </ul>
-        </div></div>
-      </div>
+          <div class="accs">
+            <div class="acc card reveal">
+              <h3>
+                <button
+                  class="acc-btn"
+                  type="button"
+                  id="accb-1"
+                  aria-expanded="false"
+                  aria-controls="accp-1"
+                >
+                  ليه بنبدأ بجنينة صغيرة؟<span
+                    class="chev"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+              </h3>
+              <div
+                class="acc-panel"
+                id="accp-1"
+                role="region"
+                aria-labelledby="accb-1"
+              >
+                <div class="acc-inner">
+                  <ul>
+                    <li>
+                      لأن حجم الجنينة مجرد رقم في الكود فالتكبير بعدين سهل.
+                    </li>
+                    <li>
+                      على 8x8 نقدر نتأكد من الحل بإيدينا ونرسم الطريق بالقلم.
+                    </li>
+                    <li>الـ [[Debugging]] أسهل.</li>
+                    <li>
+                      الـ [[Q-Learning]] محتاج آلاف الـ [[Episode|Episodes]]
+                      فبيخلص في ثواني.
+                    </li>
+                    <li>وكل التيمات تبدأ بسرعة.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
 
-      <div class="acc card reveal">
-        <h3><button class="acc-btn" type="button" id="accb-2" aria-expanded="false" aria-controls="accp-2">ليه الطاقة لازم تكون أقل من اللي يكفي كل الورود؟<span class="chev" aria-hidden="true"></span></button></h3>
-        <div class="acc-panel" id="accp-2" role="region" aria-labelledby="accb-2"><div class="acc-inner">
-          <p>لو الطاقة تكفي كل الورود فأي ترتيب هيكسب كل النكتار ومش هيبان لزوم الـ [[Optimization]] ولا الـ [[Q-Learning]]. المشروع بيبقى مثير لما النحلة تختار أنهي ورود وبأي ترتيب.</p>
-          <p>وبالنسبة للعدد: <b>5 ورود = 120 ترتيب</b> بس (ممكن نجربهم كلهم)، <b>10 ورود = حوالي 3.6 مليون ترتيب</b> (محتاجين [[Genetic Algorithm|GA]]).</p>
-        </div></div>
-      </div>
-    </div>
+            <div class="acc card reveal">
+              <h3>
+                <button
+                  class="acc-btn"
+                  type="button"
+                  id="accb-2"
+                  aria-expanded="false"
+                  aria-controls="accp-2"
+                >
+                  ليه الطاقة لازم تكون أقل من اللي يكفي كل الورود؟<span
+                    class="chev"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+              </h3>
+              <div
+                class="acc-panel"
+                id="accp-2"
+                role="region"
+                aria-labelledby="accb-2"
+              >
+                <div class="acc-inner">
+                  <p>
+                    لو الطاقة تكفي كل الورود فأي ترتيب هيكسب كل النكتار ومش
+                    هيبان لزوم الـ [[Optimization]] ولا الـ [[Q-Learning]].
+                    المشروع بيبقى مثير لما النحلة تختار أنهي ورود وبأي ترتيب.
+                  </p>
+                  <p>
+                    وبالنسبة للعدد: <b>5 ورود = 120 ترتيب</b> بس (ممكن نجربهم
+                    كلهم)، <b>10 ورود = حوالي 3.6 مليون ترتيب</b> (محتاجين
+                    [[Genetic Algorithm|GA]]).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    <div class="card sizes reveal">
-      <h3>ثلاث أحجام خرائط</h3>
-      <ul>
-        <li><b>للتطوير:</b> <span class="ltr">8x8</span> مع 3-4 ورود</li>
-        <li><b>للتقييم والعرض:</b> <span class="ltr">15x15</span> مع 8-12 وردة</li>
-        <li><b>للمقارنة:</b> كذا خريطة مختلفة</li>
-      </ul>
-    </div>
-  </div>
-</section>
+          <div class="card sizes reveal">
+            <h3>ثلاث أحجام خرائط</h3>
+            <ul>
+              <li><b>للتطوير:</b> <span class="ltr">8x8</span> مع 3-4 ورود</li>
+              <li>
+                <b>للتقييم والعرض:</b> <span class="ltr">15x15</span> مع 8-12
+                وردة
+              </li>
+              <li><b>للمقارنة:</b> كذا خريطة مختلفة</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-<!-- ============================================================
+      <!-- ============================================================
      SECTION F : المراحل
 ============================================================ -->
-<section id="phases" class="sec phases" data-nav="phases" aria-labelledby="phases-h">
-  <div class="wrap">
-    <header class="sec-head reveal">
-      <span class="kicker">8 Phases</span>
-      <h2 id="phases-h">المراحل من 0 لـ 7</h2>
-      <p>اضغطوا على أي رقم عشان تشوفوا تفاصيل المرحلة.</p>
-    </header>
+      <section
+        id="phases"
+        class="sec phases"
+        data-nav="phases"
+        aria-labelledby="phases-h"
+      >
+        <div class="wrap">
+          <header class="sec-head reveal">
+            <span class="kicker">8 Phases</span>
+            <h2 id="phases-h">المراحل من 0 لـ 7</h2>
+            <p>اضغطوا على أي رقم عشان تشوفوا تفاصيل المرحلة.</p>
+          </header>
 
-    <div id="stepper" class="stepper" role="tablist" aria-label="مراحل المشروع من 0 إلى 7"></div>
-    <div id="phasePanel" class="phase-panel" role="tabpanel" tabindex="0"></div>
+          <div
+            id="stepper"
+            class="stepper"
+            role="tablist"
+            aria-label="مراحل المشروع من 0 إلى 7"
+          ></div>
+          <div
+            id="phasePanel"
+            class="phase-panel"
+            role="tabpanel"
+            tabindex="0"
+          ></div>
 
-    <h3 class="sub reveal">خريطة الاعتماد بين المراحل (Dependency Map)</h3>
-    <div class="card depcard reveal"><div id="depmap"></div></div>
-    <p class="small-note reveal">بعد ما البيئة تجهز، المراحل 2 و 5 و 6 تشتغل بالتوازي. و 4 تبدأ بمسافة مؤقتة وتوصل لـ A* بعدين.</p>
-  </div>
-</section>
+          <h3 class="sub reveal">
+            خريطة الاعتماد بين المراحل (Dependency Map)
+          </h3>
+          <div class="card depcard reveal"><div id="depmap"></div></div>
+          <p class="small-note reveal">
+            بعد ما البيئة تجهز، المراحل 2 و 5 و 6 تشتغل بالتوازي. و 4 تبدأ
+            بمسافة مؤقتة وتوصل لـ A* بعدين.
+          </p>
+        </div>
+      </section>
 
-<!-- ============================================================
+      <!-- ============================================================
      SECTION G : الجدول الزمني
 ============================================================ -->
-<section id="timeline" class="sec timeline" data-nav="timeline" aria-labelledby="timeline-h">
-  <div class="wrap">
-    <header class="sec-head reveal">
-      <span class="kicker">Timeline</span>
-      <h2 id="timeline-h">الجدول الزمني</h2>
-      <p class="honest">ميعاد التسليم لسه ما اتحددش. المتوقع إنه قبل الـ Final، والـ Final آخر ديسمبر أو أول يناير، والجدول لسه ما نزلش. أول ما يتحدد هنعدل التواريخ.</p>
-    </header>
+      <section
+        id="timeline"
+        class="sec timeline"
+        data-nav="timeline"
+        aria-labelledby="timeline-h"
+      >
+        <div class="wrap">
+          <header class="sec-head reveal">
+            <span class="kicker">Timeline</span>
+            <h2 id="timeline-h">الجدول الزمني</h2>
+            <p class="honest">
+              ميعاد التسليم لسه ما اتحددش. المتوقع إنه قبل الـ Final، والـ Final
+              آخر ديسمبر أو أول يناير، والجدول لسه ما نزلش. أول ما يتحدد هنعدل
+              التواريخ.
+            </p>
+          </header>
 
-    <p class="badge-line reveal"><span class="badge">مثال مبدئي</span></p>
-    <ol class="weeks stagger">
-      <li class="card week"><span class="wk">Week 1</span><p><b>Phase 0 + Phase 1</b><br>والكل بيذاكر النظري بتاعه بالتوازي.</p></li>
-      <li class="card week"><span class="wk">Week 2</span><p><b>Phase 2 و 3</b><br>وبداية 4 و 5 و 6.</p></li>
-      <li class="card week"><span class="wk">Week 3</span><p><b>إنهاء 4 و 5 و 6</b><br>+ أول تكامل بين الأجزاء.</p></li>
-      <li class="card week"><span class="wk">Week 4</span><p><b>Phase 7</b><br>التقرير، بروفة الديمو، وهامش للمشاكل.</p></li>
-    </ol>
+          <p class="badge-line reveal"><span class="badge">مثال مبدئي</span></p>
+          <ol class="weeks stagger">
+            <li class="card week">
+              <span class="wk">Week 1</span>
+              <p>
+                <b>Phase 0 + Phase 1</b><br />والكل بيذاكر النظري بتاعه
+                بالتوازي.
+              </p>
+            </li>
+            <li class="card week">
+              <span class="wk">Week 2</span>
+              <p><b>Phase 2 و 3</b><br />وبداية 4 و 5 و 6.</p>
+            </li>
+            <li class="card week">
+              <span class="wk">Week 3</span>
+              <p><b>إنهاء 4 و 5 و 6</b><br />+ أول تكامل بين الأجزاء.</p>
+            </li>
+            <li class="card week">
+              <span class="wk">Week 4</span>
+              <p><b>Phase 7</b><br />التقرير، بروفة الديمو، وهامش للمشاكل.</p>
+            </li>
+          </ol>
 
-    <div class="milestone reveal">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h12l-2 4 2 4H5"/></svg>
-      <p><b>[[Code Freeze]] قبل التسليم بأسبوع:</b> التكامل والتجربة بس، من غير ميزات جديدة.</p>
-    </div>
-    <p class="small-note reveal">الجدول بيتعدل لما نعرف ميعاد التسليم الحقيقي.</p>
-  </div>
-</section>
+          <div class="milestone reveal">
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 21V4M5 4h12l-2 4 2 4H5" />
+            </svg>
+            <p>
+              <b>[[Code Freeze]] قبل التسليم بأسبوع:</b> التكامل والتجربة بس، من
+              غير ميزات جديدة.
+            </p>
+          </div>
+          <p class="small-note reveal">
+            الجدول بيتعدل لما نعرف ميعاد التسليم الحقيقي.
+          </p>
+        </div>
+      </section>
 
-<!-- ============================================================
+      <!-- ============================================================
      SECTION H : أدوار التيم
 ============================================================ -->
-<section id="roles" class="sec roles" data-nav="roles" aria-labelledby="roles-h">
-  <div class="wrap">
-    <header class="sec-head reveal">
-      <span class="kicker">Team Roles</span>
-      <h2 id="roles-h">مين هيعمل إيه</h2>
-    </header>
+      <section
+        id="roles"
+        class="sec roles"
+        data-nav="roles"
+        aria-labelledby="roles-h"
+      >
+        <div class="wrap">
+          <header class="sec-head reveal">
+            <span class="kicker">Team Roles</span>
+            <h2 id="roles-h">مين هيعمل إيه</h2>
+          </header>
 
-    <!-- EDIT HERE: اكتبوا أسماء أعضاء كل فريق مكان "........" في سطر "الأعضاء" -->
-    <div class="team-grid stagger">
-      <article class="card team t1">
-        <header><h3>Team 1</h3><span class="role-name">Environment + Search</span></header>
-        <p class="members">الأعضاء: ........</p>
-        <dl>
-          <dt>الهدف</dt><dd>Environment ثم [[UCS]] و [[A*]] ثم Search-Based Baseline + [[Distance Matrix]] + إطار الـ [[Metrics]]. هنبني الجنينة v1 بسرعة من قواعد البيئة ثم نكمل على البحث.</dd>
-          <dt>هنستلم إيه ومن مين</dt><dd>قواعد الجنينة المتفق عليها (من قسم القواعد ومراجعة القائد).</dd>
-          <dt>هنسلّم إيه</dt><dd>الجنينة والـ Distance Matrix والـ Metrics للباقي.</dd>
-          <dt>المراحل المرتبطة</dt><dd class="pb"><a class="pbadge" href="#phases" data-phase="1" aria-label="المرحلة 1">1</a><a class="pbadge" href="#phases" data-phase="2" aria-label="المرحلة 2">2</a><a class="pbadge" href="#phases" data-phase="3" aria-label="المرحلة 3">3</a></dd>
-        </dl>
-      </article>
+          <!-- EDIT HERE: اكتبوا أسماء أعضاء كل فريق مكان "........" في سطر "الأعضاء" -->
+          <div class="team-grid stagger">
+            <article class="card team t1">
+              <header>
+                <h3>Team 1</h3>
+                <span class="role-name">Environment + Search</span>
+              </header>
+              <p class="members">الأعضاء: Tasneem &amp; Keria</p>
+              <dl>
+                <dt>الهدف</dt>
+                <dd>
+                  [[Environment]] ثم [[UCS]] و [[A*]] + [[Distance Matrix]].
+                  هنبني الجنينة v1 بسرعة من قواعد البيئة (المطلوب تخلص في 3
+                  أيام)، وعضو يبدأ على [[A*]] بالتوازي على جنينة تجريبية صغيرة،
+                  والمطلوب يكون [[A*]] شغال في آخر الأسبوع الأول.
+                </dd>
+                <dt>هنستلم إيه ومن مين</dt>
+                <dd>
+                  قواعد الجنينة المتفق عليها (من قسم القواعد ومراجعة القائد).
+                </dd>
+                <dt>هنسلّم إيه</dt>
+                <dd>الجنينة والـ [[Distance Matrix]] ودوال [[UCS]] و [[A*]] للباقي.</dd>
+                <dt>المراحل المرتبطة</dt>
+                <dd class="pb">
+                  <a
+                    class="pbadge"
+                    href="#phases"
+                    data-phase="1"
+                    aria-label="المرحلة 1"
+                    >1</a
+                  ><a
+                    class="pbadge"
+                    href="#phases"
+                    data-phase="2"
+                    aria-label="المرحلة 2"
+                    >2</a
+                  >
+                </dd>
+              </dl>
+            </article>
 
-      <article class="card team t2">
-        <header><h3>Team 2</h3><span class="role-name">Optimization</span></header>
-        <p class="members">الأعضاء: ........</p>
-        <dl>
-          <dt>الهدف</dt><dd>[[Hill Climbing]] و [[Genetic Algorithm]] (واحد على كل خوارزمية).</dd>
-          <dt>هنستلم إيه ومن مين</dt><dd>الجنينة والـ Distance Matrix (من Team 1).</dd>
-          <dt>هنسلّم إيه</dt><dd>ترتيب زيارة أحسن مع رسم تقارب الحل.</dd>
-          <dt>المراحل المرتبطة</dt><dd class="pb"><a class="pbadge" href="#phases" data-phase="4" aria-label="المرحلة 4">4</a></dd>
-        </dl>
-      </article>
+            <article class="card team t2">
+              <header>
+                <h3>Team 2</h3>
+                <span class="role-name">Optimization</span>
+              </header>
+              <p class="members">الأعضاء: Malak &amp; Habiba</p>
+              <dl>
+                <dt>الهدف</dt>
+                <dd>
+                  [[Hill Climbing]] أولًا، ثم [[Genetic Algorithm]] كإضافة لو
+                  الوقت سمح (المواصفات بتقول "أو"، فمطلوب واحد منهم على الأقل).
+                  في البداية بنستخدم مسافة [[Manhattan distance]] مؤقتة لحد ما
+                  الـ [[Distance Matrix]] يجهز.
+                </dd>
+                <dt>هنستلم إيه ومن مين</dt>
+                <dd>الجنينة والـ [[Distance Matrix]] (من Team 1).</dd>
+                <dt>هنسلّم إيه</dt>
+                <dd>ترتيب زيارة أحسن مع رسم تقارب الحل.</dd>
+                <dt>المراحل المرتبطة</dt>
+                <dd class="pb">
+                  <a
+                    class="pbadge"
+                    href="#phases"
+                    data-phase="4"
+                    aria-label="المرحلة 4"
+                    >4</a
+                  >
+                </dd>
+              </dl>
+            </article>
 
-      <article class="card team t3">
-        <header><h3>Team 3</h3><span class="role-name">Q-Learning</span></header>
-        <p class="members">الأعضاء: ........</p>
-        <dl>
-          <dt>الهدف</dt><dd>تصميم الـ [[State]] والـ [[Reward]] والتدريب + تسجيل ورسم الـ [[Learning Curve]] (تقسيم داخلي بين الاتنين).</dd>
-          <dt>هنستلم إيه ومن مين</dt><dd>الجنينة (من Team 1).</dd>
-          <dt>هنسلّم إيه</dt><dd>نحلة متدربة + Learning Curve.</dd>
-          <dt>المراحل المرتبطة</dt><dd class="pb"><a class="pbadge" href="#phases" data-phase="5" aria-label="المرحلة 5">5</a></dd>
-        </dl>
-      </article>
+            <article class="card team t3">
+              <header>
+                <h3>Team 3</h3>
+                <span class="role-name">Q-Learning</span>
+              </header>
+              <p class="members">الأعضاء: Jana &amp; Sarah</p>
+              <dl>
+                <dt>الهدف</dt>
+                <dd>
+                  تصميم الـ [[State]] والـ [[Reward]] والتدريب + تسجيل ورسم الـ
+                  [[Learning Curve]] (تقسيم داخلي بين الاتنين).
+                </dd>
+                <dt>هنستلم إيه ومن مين</dt>
+                <dd>الجنينة (من Team 1).</dd>
+                <dt>هنسلّم إيه</dt>
+                <dd>نحلة متدربة + Learning Curve.</dd>
+                <dt>المراحل المرتبطة</dt>
+                <dd class="pb">
+                  <a
+                    class="pbadge"
+                    href="#phases"
+                    data-phase="5"
+                    aria-label="المرحلة 5"
+                    >5</a
+                  >
+                </dd>
+              </dl>
+            </article>
 
-      <article class="card team t4">
-        <header><h3>Team 4</h3><span class="role-name">Visualization</span></header>
-        <p class="members">الأعضاء: ........</p>
-        <dl>
-          <dt>الهدف</dt><dd>واحد على الجنينة وحركة النحلة، والتاني على الطاقة والمسارات والرسومات واللوحة.</dd>
-          <dt>هنستلم إيه ومن مين</dt><dd>الجنينة والمسارات من الباقي.</dd>
-          <dt>هنسلّم إيه</dt><dd>المحاكاة التفاعلية.</dd>
-          <dt>المراحل المرتبطة</dt><dd class="pb"><a class="pbadge" href="#phases" data-phase="6" aria-label="المرحلة 6">6</a></dd>
-        </dl>
-      </article>
-    </div>
+            <article class="card team t4">
+              <header>
+                <h3>Team 4</h3>
+                <span class="role-name">Visualization</span>
+              </header>
+              <p class="members">الأعضاء: Mariam &amp; Yassa</p>
+              <dl>
+                <dt>الهدف</dt>
+                <dd>
+                  عضو يشتغل على رسم الجنينة وحركة النحلة، والعضو الآخر على
+                  الطاقة والمسارات والرسومات واللوحة.
+                </dd>
+                <dt>هنستلم إيه ومن مين</dt>
+                <dd>
+                  الجنينة (من Team 1)، ونتايج الاستراتيجيات الثلاث وبيانات الـ
+                  [[Learning Curve]] (من الباقي).
+                </dd>
+                <dt>هنسلّم إيه</dt>
+                <dd>المحاكاة التفاعلية والرسومات.</dd>
+                <dt>المراحل المرتبطة</dt>
+                <dd class="pb">
+                  <a
+                    class="pbadge"
+                    href="#phases"
+                    data-phase="6"
+                    aria-label="المرحلة 6"
+                    >6</a
+                  >
+                </dd>
+              </dl>
+            </article>
+          </div>
 
-    <article class="card team leader reveal">
-      <header><h3>Team Leader</h3><span class="role-name">التنسيق والتكامل</span></header>
-      <dl>
-        <dt>الهدف</dt><dd>التنسيق والتكامل بين الأجزاء، مراجعة قواعد البيئة، المقارنة النهائية والـ Metrics، مراجعة التقرير.</dd>
-        <dt>المراحل المرتبطة</dt><dd class="pb"><a class="pbadge" href="#phases" data-phase="0" aria-label="المرحلة 0">0</a><a class="pbadge" href="#phases" data-phase="7" aria-label="المرحلة 7">7</a><span class="pb-text">وكل التكامل</span></dd>
-      </dl>
-    </article>
+          <article class="card team leader reveal">
+            <header>
+              <h3>Team Leader</h3>
+              <span class="role-name">التنسيق والتكامل + كود</span>
+            </header>
+            <dl>
+              <dt>الهدف</dt>
+              <dd>
+                التنسيق والتكامل بين الأجزاء ومراجعة قواعد البيئة. وكود حقيقي:
+                [[Search-Based]] Strategy (اختيار الوردة الجاية باستخدام
+                [[A*]])، وحساب الـ [[Metrics]]، وملف main.py اللي بيشغّل
+                الاستراتيجيات الثلاث على نفس الخرائط ويقارن بينها. وكمان
+                مراجعة التقرير. (ملحوظة: تعريف الـ [[Search-Based]] Strategy
+                لسه هيتأكد من الدكتور.)
+              </dd>
+              <dt>المراحل المرتبطة</dt>
+              <dd class="pb">
+                <a
+                  class="pbadge"
+                  href="#phases"
+                  data-phase="0"
+                  aria-label="المرحلة 0"
+                  >0</a
+                ><a
+                  class="pbadge"
+                  href="#phases"
+                  data-phase="3"
+                  aria-label="المرحلة 3"
+                  >3</a
+                ><a
+                  class="pbadge"
+                  href="#phases"
+                  data-phase="7"
+                  aria-label="المرحلة 7"
+                  >7</a
+                ><span class="pb-text">وكل التكامل</span>
+              </dd>
+            </dl>
+          </article>
 
-    <ul class="notes reveal">
-      <li>كل زوج بيقسّم نفسه من الأول: كل فرد يعرف المخرج بتاعه هو، مش بتاع الزوج كله.</li>
-      <li>التوزيع مبدئي، وبعد أسبوع هنراجعه ونعدّل لو حد حس إن حمله أخف أو أتقل.</li>
-      <li>كل فرد لازم يشرح اللي عمله في 5 دقايق أسبوعيًا، عشان الكل يفهم المشروع كله وقت الديمو.</li>
-    </ul>
-  </div>
-</section>
+          <ul class="notes reveal">
+            <li>
+              كل زوج بيقسّم نفسه من الأول: كل فرد يعرف المخرج بتاعه هو، مش بتاع
+              الزوج كله.
+            </li>
+            <li>
+              التوزيع مبدئي، وبعد أسبوع هنراجعه ونعدّل لو حد حس إن حمله أخف أو
+              أتقل.
+            </li>
+            <li>
+              كل فرد لازم يشرح اللي عمله في 5 دقايق أسبوعيًا، عشان الكل يفهم
+              المشروع كله وقت الديمو.
+            </li>
+          </ul>
+        </div>
+      </section>
 
-<!-- ============================================================
+      <!-- ============================================================
      SECTION I : في حالة لو التوزيع مش عادل
 ============================================================ -->
-<section id="pool" class="sec pool" data-nav="roles" aria-labelledby="pool-h">
-  <div class="wrap">
-    <header class="sec-head reveal">
-      <span class="kicker">Balance Pool</span>
-      <h2 id="pool-h">في حالة لو التوزيع مش عادل</h2>
-      <p>مش كل الأجزاء حملها واحد. ممكن بعد التوزيع نكتشف إن جزء أخف من التاني (مثلا كوده قصير حتى لو نظريًا مهم). عشان كده فيه شغل مشترك لسه ما اتوزعش. اللي جزءه اتضح إنه أخف من التاني هيتطلب منه ياخد حاجة من القائمة دي، واللي جزءه أتقل ممكن نشيل عنه حاجة. ده بيعدّل الميزان من غير ما نعيد التقسيم من الصفر.</p>
-    </header>
+      <section
+        id="pool"
+        class="sec pool"
+        data-nav="roles"
+        aria-labelledby="pool-h"
+      >
+        <div class="wrap">
+          <header class="sec-head reveal">
+            <span class="kicker">Balance Pool</span>
+            <h2 id="pool-h">في حالة لو التوزيع مش عادل</h2>
+            <p>
+              مش كل الأجزاء حملها واحد. ممكن بعد التوزيع نكتشف إن جزء أخف من
+              التاني (مثلا كوده قصير حتى لو نظريًا مهم). عشان كده فيه شغل مشترك
+              لسه ما اتوزعش. اللي جزءه اتضح إنه أخف من التاني هيتطلب منه ياخد
+              حاجة من القائمة دي، واللي جزءه أتقل ممكن نشيل عنه حاجة. ده بيعدّل
+              الميزان من غير ما نعيد التقسيم من الصفر.
+            </p>
+          </header>
 
-    <div class="pool-grid stagger">
-      <div class="card pcard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h7M9 16h7"/></svg><p>كتابة قسم كل جزء في التقرير</p></div>
-      <div class="card pcard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v4M8 20h8M10 8l5 2-5 2z"/></svg><p>عمل شرائح العرض التقديمي</p></div>
-      <div class="card pcard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4M4 20h16"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg><p>تشغيل التجارب على خرائط مختلفة وتسجيل النتايج</p></div>
-      <div class="card pcard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8.500" cy="12" r="4.500"/><circle cx="15.500" cy="12" r="4.500"/></svg><p>اختبار إن الأجزاء شغالة مع بعض</p></div>
-      <div class="card pcard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M9 8h6M9 12h6"/></svg><p>كتابة README (إزاي نشغّل المشروع)</p></div>
-      <div class="card pcard"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"/></svg><p>بروفة الديمو</p></div>
-    </div>
+          <div class="pool-grid stagger">
+            <div class="card pcard">
+              <svg
+                class="ico"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.800"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M6 3h9l4 4v14H6z" />
+                <path d="M14 3v5h5M9 12h7M9 16h7" />
+              </svg>
+              <p>كتابة قسم كل جزء في التقرير</p>
+            </div>
+            <div class="card pcard">
+              <svg
+                class="ico"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.800"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="4" width="18" height="12" rx="2" />
+                <path d="M12 16v4M8 20h8M10 8l5 2-5 2z" />
+              </svg>
+              <p>عمل شرائح العرض التقديمي</p>
+            </div>
+            <div class="card pcard">
+              <svg
+                class="ico"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.800"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M4 20V4M4 20h16" />
+                <rect x="7" y="12" width="3" height="6" />
+                <rect x="12" y="8" width="3" height="10" />
+                <rect x="17" y="5" width="3" height="13" />
+              </svg>
+              <p>تشغيل التجارب على خرائط مختلفة وتسجيل النتايج</p>
+            </div>
+            <div class="card pcard">
+              <svg
+                class="ico"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.800"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="8.500" cy="12" r="4.500" />
+                <circle cx="15.500" cy="12" r="4.500" />
+              </svg>
+              <p>اختبار إن الأجزاء شغالة مع بعض</p>
+            </div>
+            <div class="card pcard">
+              <svg
+                class="ico"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.800"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 4h10a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z" />
+                <path d="M9 8h6M9 12h6" />
+              </svg>
+              <p>كتابة README (إزاي نشغّل المشروع)</p>
+            </div>
+            <div class="card pcard">
+              <svg
+                class="ico"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.800"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="9" y="3" width="6" height="11" rx="3" />
+                <path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8" />
+              </svg>
+              <p>بروفة الديمو</p>
+            </div>
+          </div>
 
-    <h3 class="sub reveal">إزاي بنطبقها</h3>
-    <ol class="how reveal">
-      <li><span>1</span>بعد أسبوع نراجع حمل كل فريق</li>
-      <li><span>2</span>الفريق الأخف ياخد حصة أكبر من القائمة</li>
-      <li><span>3</span>الفريق الأتقل (زي Team 3 في Q-Learning) ياخد حصة أقل</li>
-      <li><span>4</span>أي حد حس بظلم يقول في الجروب ونعدل</li>
-    </ol>
-    <p class="small-note reveal">لو جزء طلع خفيف (مثلا كوده كام سطر بس)، دي مش مشكلة خالص، هو بس هياخد أكتر من القائمة دي.</p>
-  </div>
-</section>
+          <h3 class="sub reveal">إزاي بنطبقها</h3>
+          <ol class="how reveal">
+            <li><span>1</span>بعد أسبوع نراجع حمل كل فريق</li>
+            <li><span>2</span>الفريق الأخف ياخد حصة أكبر من القائمة</li>
+            <li>
+              <span>3</span>الفريق الأتقل (زي Team 3 في Q-Learning) ياخد حصة أقل
+            </li>
+            <li><span>4</span>أي حد حس بظلم يقول في الجروب ونعدل</li>
+          </ol>
+          <p class="small-note reveal">
+            لو جزء طلع خفيف (مثلا كوده كام سطر بس)، دي مش مشكلة خالص، هو بس
+            هياخد أكتر من القائمة دي.
+          </p>
+        </div>
+      </section>
+    </main>
 
-</main>
-
-<!-- ============================================================
+    <!-- ============================================================
      SECTION J : Footer
 ============================================================ -->
-<footer class="footer dark-zone">
-  <div class="wrap foot-in">
-    <svg width="46" height="46" aria-hidden="true"><use href="#bee" width="46" height="46"/></svg>
-    <p class="foot-title" dir="ltr">AI Bee Pollination Agent</p>
-    <p>مشروع مادة الـ AI</p>
-    <button class="btn sm" id="toTop" type="button">رجوع لأعلى
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V4M5 11l7-7 7 7"/></svg>
-    </button>
-    <p class="foot-note">الموقع ده أداة شرح للفريق، مش جزء من تسليم المشروع.</p>
-  </div>
-</footer>
+    <footer class="footer dark-zone">
+      <div class="wrap foot-in">
+        <svg width="46" height="46" aria-hidden="true">
+          <use href="#bee" width="46" height="46" />
+        </svg>
+        <p class="foot-title" dir="ltr">AI Bee Pollination Agent</p>
+        <p>مشروع مادة الـ AI</p>
+        <button class="btn sm" id="toTop" type="button">
+          رجوع لأعلى
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.600"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 20V4M5 11l7-7 7 7" />
+          </svg>
+        </button>
+        <p class="foot-note">
+          الموقع ده أداة شرح للفريق، مش جزء من تسليم المشروع.
+        </p>
+      </div>
+    </footer>
 
-<!-- Tooltip for term chips -->
-<div id="tip" role="tooltip"></div>
+    <!-- Tooltip for term chips -->
+    <div id="tip" role="tooltip"></div>
 
-<noscript><p style="padding:1rem;text-align:center">الموقع محتاج JavaScript عشان التفاعلات والشرح يشتغلوا.</p></noscript>
-</body>
+    <noscript
+      ><p style="padding: 1rem; text-align: center">
+        الموقع محتاج JavaScript عشان التفاعلات والشرح يشتغلوا.
+      </p></noscript
+    >
+  </body>
 </html>
